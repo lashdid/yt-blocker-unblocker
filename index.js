@@ -44,8 +44,11 @@
         return convertedSeconds + lastSeconds
     }
 
+    let captionButton = null
     let isBlocked = false
     let seconds = 0
+    const getIsCaptionOn = () => captionButton ? captionButton.getAttribute('aria-pressed') : false
+
     setInterval(() => {
         const currentTime = document.querySelector('.ytp-time-current').textContent
         seconds = timeToSeconds(currentTime)
@@ -61,4 +64,34 @@
             return
         }
     }, 2500)
+
+    if(!isBlocked){
+        // i dont know the function to get if the page load, i know its out there, but for now this will do
+        const checkForCaption = setInterval(() => {
+            if(!captionButton){
+                captionButton = document.querySelector('.ytp-subtitles-button')
+                console.log('button found yippie')
+                return
+            }
+            clearInterval(checkForCaption)
+            // basically the page rendered
+            doThisWhenPageRendered()
+        }, 1000)
+
+        const doThisWhenPageRendered = () => {
+            const isStorageCaptionExist = localStorage.getItem('yt-is-caption-on')
+            // youtube apparently did not save the caption value state, thats why when the webpage is refreshed the caption will always be false
+            if(!isStorageCaptionExist){
+                localStorage.setItem('yt-is-caption-on', getIsCaptionOn())
+            }
+            const isStorageCaptionOn = localStorage.getItem('yt-is-caption-on') === 'true'
+            if(isStorageCaptionOn){
+                captionButton.click()
+            }
+            // bruh this is bad
+            setInterval(() => {
+                localStorage.setItem('yt-is-caption-on', getIsCaptionOn())
+            }, 2500)
+        }
+    }
 })();
