@@ -90,7 +90,10 @@
             }
             // bruh this is bad
             setInterval(() => {
-                localStorage.setItem('yt-is-caption-on', getIsCaptionOn())
+                // just do this if ad not showing
+                if(!document.querySelector('.ad-showing')){
+                    localStorage.setItem('yt-is-caption-on', getIsCaptionOn())
+                }
             }, 2500)
         }
     }
