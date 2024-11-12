@@ -1,4 +1,4 @@
-# YT Unblocker Blocker Unblocker
+# YT Blocker Unblocker
 Im using yt 2x speedup ads extension, but its still blocked by youtube
 
 ## How It Works
