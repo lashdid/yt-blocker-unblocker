@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         YT Unblock Blocker
 // @namespace    http://tampermonkey.net/
-// @version      2024-09-27
+// @version      2024-11-12
 // @description  Heheheha!!
-// @author       You
+// @author       Lashdid
 // @match        https://www.youtube.com/*
 // @exclude      https://www.youtube.com/shorts*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
@@ -48,10 +48,11 @@
     let isBlocked = false
     let seconds = 0
     const getIsCaptionOn = () => captionButton ? captionButton.getAttribute('aria-pressed') : false
+    const isAdShowing = document.querySelector('.ad-showing')
 
     setInterval(() => {
-        const currentTime = document.querySelector('.ytp-time-current').textContent
-        seconds = timeToSeconds(currentTime)
+        const currentTime = document.querySelector('.ytp-time-current')?.textContent || '0:00'
+        if(!isAdShowing) seconds = timeToSeconds(currentTime)
         if(document.querySelector('.ytd-enforcement-message-view-model') && !isBlocked){
             isBlocked = true
             console.log('blocked lol')
@@ -65,17 +66,16 @@
         }
     }, 2500)
 
-    if(!isBlocked){
+    if(!isBlocked && !isAdShowing){
         // i dont know the function to get if the page load, i know its out there, but for now this will do
         const checkForCaption = setInterval(() => {
-            if(!captionButton){
+            if(document.querySelector('.ytp-subtitles-button')){
                 captionButton = document.querySelector('.ytp-subtitles-button')
                 console.log('button found yippie')
-                return
+                clearInterval(checkForCaption)
+                // basically the page rendered
+                doThisWhenPageRendered()
             }
-            clearInterval(checkForCaption)
-            // basically the page rendered
-            doThisWhenPageRendered()
         }, 1000)
 
         const doThisWhenPageRendered = () => {
@@ -91,7 +91,7 @@
             // bruh this is bad
             setInterval(() => {
                 // just do this if ad not showing
-                if(!document.querySelector('.ad-showing')){
+                if(!isAdShowing){
                     localStorage.setItem('yt-is-caption-on', getIsCaptionOn())
                 }
             }, 2500)
