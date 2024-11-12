@@ -7,6 +7,6 @@ Im using yt 2x speedup ads extension, but its still blocked by youtube
 - Keep caption on if the page refreshes
 
 ## How To Use
-1. Install TemperMonkey
+1. Install TamperMonkey
 2. Create new script, copy and paste all `index.js` script, to TemperMonkey
 3. Customize all you want
