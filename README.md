@@ -8,5 +8,5 @@ Im using yt 2x speedup ads extension, but its still blocked by youtube
 
 ## How To Use
 1. Install TamperMonkey
-2. Create new script, copy and paste all `index.js` script, to TemperMonkey
+2. Create new script, copy and paste all `index.js` script, to TamperMonkey
 3. Customize all you want
